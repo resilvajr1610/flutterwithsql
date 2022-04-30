@@ -316,99 +316,101 @@ class _cadastroPageState extends State<cadastroPage> {
       child: Scaffold(
         resizeToAvoidBottomInset: false,
         backgroundColor: Colors.grey.shade100,
-        body: Padding(
-          padding: EdgeInsets.symmetric(horizontal: 10.0),
-          child: Form(
-            key: _formKey,
-            child: Column(
-              mainAxisAlignment: MainAxisAlignment.center,
-              children: <Widget>[
-                GestureDetector(
-                  onTap:(){
-                    mensagemExcluir();
-                  },
-                  child:Image(
-                    image:AssetImage(caminhoImg),
-                    height:120.0,
-                    width:120.0,
-                  ),
-                ),
-
-                SizedBox(
-                  height: 20.0,
-                ),
-                Card(
-                  elevation: 5.0,
-                  child: Padding(
-                    padding: EdgeInsets.all(20.0),
-                    child: Column(
-                      children: <Widget>[
-                        _nometxt(),
-                        SizedBox(
-                          height: 12.0,
-                        ),
-                        _cpftxt(),
-                        SizedBox(
-                          height: 12.0,
-                        ),
-                        _telefonetxt(),
-                        SizedBox(
-                          height: 12.0,
-                        ),
-                        _emailtxt(),
-                        SizedBox(
-                          height: 12.0,
-                        ),
-                        _senhatxt(),
-                      ],
+        body: SingleChildScrollView(
+          child: Padding(
+            padding: EdgeInsets.symmetric(horizontal: 10.0),
+            child: Form(
+              key: _formKey,
+              child: Column(
+                mainAxisAlignment: MainAxisAlignment.center,
+                children: <Widget>[
+                  GestureDetector(
+                    onTap:(){
+                      mensagemExcluir();
+                    },
+                    child:Image(
+                      image:AssetImage(caminhoImg),
+                      height:120.0,
+                      width:120.0,
                     ),
                   ),
-                ),
-                SizedBox(
-                  height: 20.0,
-                ),
 
-
-            GestureDetector(
-            onTap: () {
-            _inserir();
-
-             },
-              child: Button(
-               btnText: nomebtn,
-               ),
-            ),
-
-                Divider(
-                  height: 20.0,
-                ),
-                Row(
-                  mainAxisAlignment: MainAxisAlignment.center,
-                  children: <Widget>[
-                    Text(
-                      "Já possui Cadastro?",
-                      style: TextStyle(
-                          color: Color(0xFFBDC2CB),
-                          fontWeight: FontWeight.bold,
-                          fontSize: 16.0),
+                  SizedBox(
+                    height: 20.0,
+                  ),
+                  Card(
+                    elevation: 5.0,
+                    child: Padding(
+                      padding: EdgeInsets.all(20.0),
+                      child: Column(
+                        children: <Widget>[
+                          _nometxt(),
+                          SizedBox(
+                            height: 12.0,
+                          ),
+                          _cpftxt(),
+                          SizedBox(
+                            height: 12.0,
+                          ),
+                          _telefonetxt(),
+                          SizedBox(
+                            height: 12.0,
+                          ),
+                          _emailtxt(),
+                          SizedBox(
+                            height: 12.0,
+                          ),
+                          _senhatxt(),
+                        ],
+                      ),
                     ),
-                    SizedBox(width: 10.0),
-                    GestureDetector(
-                      onTap: () {
-                        Navigator.of(context).pushReplacement(MaterialPageRoute(
-                            builder: (BuildContext context) => LoginPage()));
-                      },
-                      child: Text(
-                        "Logar",
+                  ),
+                  SizedBox(
+                    height: 20.0,
+                  ),
+
+
+              GestureDetector(
+              onTap: () {
+              _inserir();
+
+               },
+                child: Button(
+                 btnText: nomebtn,
+                 ),
+              ),
+
+                  Divider(
+                    height: 20.0,
+                  ),
+                  Row(
+                    mainAxisAlignment: MainAxisAlignment.center,
+                    children: <Widget>[
+                      Text(
+                        "Já possui Cadastro?",
                         style: TextStyle(
-                            color: Colors.blueAccent,
+                            color: Color(0xFFBDC2CB),
                             fontWeight: FontWeight.bold,
                             fontSize: 16.0),
                       ),
-                    ),
-                  ],
-                ),
-              ],
+                      SizedBox(width: 10.0),
+                      GestureDetector(
+                        onTap: () {
+                          Navigator.of(context).pushReplacement(MaterialPageRoute(
+                              builder: (BuildContext context) => LoginPage()));
+                        },
+                        child: Text(
+                          "Logar",
+                          style: TextStyle(
+                              color: Colors.blueAccent,
+                              fontWeight: FontWeight.bold,
+                              fontSize: 16.0),
+                        ),
+                      ),
+                    ],
+                  ),
+                ],
+              ),
             ),
           ),
         ),

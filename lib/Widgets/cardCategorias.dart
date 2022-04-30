@@ -1,10 +1,9 @@
 import '../Controllers/export.dart';
 
-
 class CardCategoria extends StatelessWidget{
   final String? nomeCat;
   final String? imgCat;
-  final String? totalProd;
+  final int? totalProd;
 
   CardCategoria({this.nomeCat, this.imgCat, this.totalProd, });
 
@@ -18,7 +17,7 @@ class CardCategoria extends StatelessWidget{
             child:Row(
               children:<Widget>[
                 Container(
-                  child:Image.network("http://delivery.hugocursos.com.br/images/categorias/" + imgCat!),
+                  child:Image.asset("assets/imagens/${this.imgCat}"),
                   height:65.0,
                   width:65.0,
                 ),

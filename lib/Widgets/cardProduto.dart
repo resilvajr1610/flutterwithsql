@@ -1,7 +1,6 @@
 import '../Controllers/export.dart';
 import 'package:http/http.dart' as http;
 
-
 class CardProduto extends StatefulWidget {
   var _altura, _largura, _nomebusca, _idcat;
 
@@ -18,24 +17,22 @@ class CardProduto extends StatefulWidget {
 
 class _CardProdutoState extends State<CardProduto> {
   var cardText = TextStyle(fontSize: 16.0, fontWeight: FontWeight.bold);
-
   var carregando = false;
   var dados;
   var nome, imagem, valor;
   var buscar;
+
   @override
   void initState() {
     // TODO: implement initState
     super.initState();
     _listarDados();
-
   }
 
   _listarDados() async{
     buscar = widget._nomebusca;
-
-    var response = await http.get(
-        Uri.parse("http://192.168.15.6/flutter/produtos/listar.php?nome=${buscar}&idcat=${widget._idcat}"),
+    var url= Uri.parse("http://192.168.2.109/flutter/produtos/listar.php");
+    var response = await http.get(url,
         headers: {"Accept": "application/json"});
     final map = json.decode(response.body);
     final itens = map["result"];
@@ -45,13 +42,9 @@ class _CardProdutoState extends State<CardProduto> {
       setState(() {
         carregando = true;
         this.dados = itens;
-
       });
-
     }
-
   }
-
 
   mensagem(){
     var alert = new AlertDialog(
@@ -73,13 +66,8 @@ class _CardProdutoState extends State<CardProduto> {
         ),
       ],
     );
-    //showDialog(context: context, child: alert);
-
-
-
+    showDialog(context: context, builder: (context)=>alert);
   }
-
-
 
   @override
   Widget build(BuildContext context) {
@@ -99,16 +87,12 @@ class _CardProdutoState extends State<CardProduto> {
               itemCount: this.dados != null ? this.dados.length : 0,
               itemBuilder: (context, i){
                 final item = this.dados[i];
-
                 return new Container(
                   margin: EdgeInsets.only(bottom: 7.0),
                   child:Stack(
                     children: <Widget>[
                       Container(
-                        child:Image.network("http://delivery.hugocursos.com.br/images/produtos/" + item['imagem']),
-
-                      ),
-
+                        child:Image.asset("assets/imagens/"+item['imagem'])),
                       Positioned(
                         left: 0.0,
                         bottom: 0.0,
@@ -122,8 +106,6 @@ class _CardProdutoState extends State<CardProduto> {
                                   colors: [Colors.black, Colors.black12])),
                         ),
                       ),
-
-
                       Positioned(
                         left: 10.0,
                         bottom: 10.0,
@@ -199,16 +181,9 @@ class _CardProdutoState extends State<CardProduto> {
 
                     ],
                   ),
-
-
                 );
-
               }
-
             ),
-
-
-
           )
         ],
       ),

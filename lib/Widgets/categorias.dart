@@ -15,7 +15,7 @@ class _AreaCategoriaState extends State<AreaCategoria> {
   var dados;
 
   listarDados() async{
-    var url = Uri.parse("http://192.168.15.6/flutter/produtos/listar-categorias.php");
+    var url = Uri.parse("http://192.168.2.109/flutter/produtos/listar-categorias.php");
     var response = await http.get(url);
     var map = json.decode(response.body);
     var itens = map["result"];
@@ -34,9 +34,6 @@ class _AreaCategoriaState extends State<AreaCategoria> {
     this.listarDados();
     print('teste');
   }
-
-
-
 
   @override
   Widget build(BuildContext context){
@@ -58,7 +55,6 @@ class _AreaCategoriaState extends State<AreaCategoria> {
               onTap:(){
             Navigator.of(context).push(MaterialPageRoute(builder: (BuildContext context) => produtosPage("", item['id'])
             ));
-
           },
           child: CardCategoria(
             nomeCat: item['nome'],

@@ -26,8 +26,8 @@ flutter:
 
   uses-material-design: true
 
-assets:
-  - assets/
+  assets:
+    - assets/imagens/
 
 analyzer:
   strong-mode: true
