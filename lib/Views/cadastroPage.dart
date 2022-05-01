@@ -291,13 +291,13 @@ class _cadastroPageState extends State<cadastroPage> {
         ),
       ],
     );
-    //showDialog(context: context, child: alert);
+    showDialog(context: context, builder: (context)=>alert);
   }
 
   excluirUsuario(id){
     http.get(
         Uri.parse(
-            "http://192.168.2.112/flutter/usuarios/excluir.php?id=${id}"),
+            "http://${IP().value()}/flutter/usuarios/excluir.php?id=${id}"),
         headers: {"Accept": "application/json"});
     Navigator.of(context).push(MaterialPageRoute(builder: (BuildContext context) => Tabs("", "", "")
     ));
