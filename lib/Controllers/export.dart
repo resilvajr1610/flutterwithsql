@@ -18,6 +18,7 @@ export 'package:appflutter/Widgets/cardCategorias.dart';
 export 'package:appflutter/Widgets/cardPageCategorias.dart';
 
 export 'package:appflutter/tabs/tabs.dart';
+export '../Controllers/ip.dart';
 
 export 'dart:convert';
 

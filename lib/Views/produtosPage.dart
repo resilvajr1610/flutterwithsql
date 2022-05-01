@@ -18,13 +18,10 @@ class _produtosPageState extends State<produtosPage> {
     nomebusca = widget._nome;
     idcat = widget._idcat;
     return Scaffold(
-
       appBar: appBar(),
-
       body: ListView(
         padding:EdgeInsets.only(left:20.0, top:30.0, right:20.0),
         children: <Widget>[
-
           Column(
             children: <Widget>[
               CardProduto(480.0, 340.0, nomebusca, widget._idcat)
@@ -36,7 +33,6 @@ class _produtosPageState extends State<produtosPage> {
 
     );
   }
-
 
   appBar() {
     if (nomebusca != "" || widget._idcat != "") {
@@ -51,10 +47,8 @@ class _produtosPageState extends State<produtosPage> {
               fontSize: 15.0,
               fontWeight: FontWeight.bold
           ),
-
         ),
         centerTitle: true,
-
         actions: <Widget>[
           IconButton(
               icon: Icon(
@@ -74,9 +68,7 @@ class _produtosPageState extends State<produtosPage> {
             onPressed: () {},
           )
         ],
-
       );
     }
   }
-
 }

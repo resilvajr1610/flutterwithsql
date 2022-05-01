@@ -17,7 +17,6 @@ class CardPageCategorias extends StatefulWidget {
 
 class _CardPageCategoriasState extends State<CardPageCategorias> {
   var cardText = TextStyle(fontSize: 16.0, fontWeight: FontWeight.bold);
-
   var carregando = false;
   var dados;
   var nome, imagem, valor;
@@ -27,13 +26,11 @@ class _CardPageCategoriasState extends State<CardPageCategorias> {
     // TODO: implement initState
     super.initState();
     _listarDados();
-
   }
 
   _listarDados() async{
 
-
-    final url = Uri.parse("http://192.168.15.6/flutter/produtos/categorias.php");
+    final url = Uri.parse("http://${IP().value()}/flutter/produtos/listar-categorias.php");
     final response = await http.get(url);
     final map = json.decode(response.body);
     final itens = map["result"];
@@ -45,11 +42,8 @@ class _CardPageCategoriasState extends State<CardPageCategorias> {
         this.dados = itens;
         print(dados);
       });
-
     }
-
   }
-
 
   mensagem(){
     var alert = new AlertDialog(
@@ -66,18 +60,13 @@ class _CardPageCategoriasState extends State<CardPageCategorias> {
           child: new Text('Ok'),
           onPressed: () {
             Navigator.of(context).pushReplacement(MaterialPageRoute(
-                builder: (BuildContext context) => Tabs("","","")));
+             builder: (BuildContext context) => Tabs("","","")));
           },
         ),
       ],
     );
-    //showDialog(context: context, child: alert);
-
-
-
+    showDialog(context: context, builder: (context)=>alert);
   }
-
-
 
   @override
   Widget build(BuildContext context) {
@@ -103,10 +92,7 @@ class _CardPageCategoriasState extends State<CardPageCategorias> {
                     child:Stack(
                       children: <Widget>[
                         Container(
-                          child:Image.network("http://delivery.hugocursos.com.br/images/categorias/" + item['imagem']),
-
-                        ),
-
+                          child:Image.asset("assets/imagens/"+item['imagem'])),
                         Positioned(
                           left: 0.0,
                           bottom: 0.0,
@@ -120,12 +106,10 @@ class _CardPageCategoriasState extends State<CardPageCategorias> {
                                     colors: [Colors.black, Colors.black12])),
                           ),
                         ),
-
                         Positioned(
                           left: 10.0,
                           bottom: 10.0,
                           right: 10.0,
-
                             child: Row(
                             mainAxisAlignment: MainAxisAlignment.spaceBetween,
                             children: <Widget>[
@@ -144,7 +128,6 @@ class _CardPageCategoriasState extends State<CardPageCategorias> {
                                         color: Colors.white),
                                   ),
                                   )
-
                                 ],
                               ),
                               Column(
@@ -154,10 +137,9 @@ class _CardPageCategoriasState extends State<CardPageCategorias> {
                                     onTap:(){
                                       Navigator.of(context).push(MaterialPageRoute(builder: (BuildContext context) => produtosPage("", item['id'])
                                       ));
-
                                     },
                                     child:Text(
-                                    item['produtos'] + " Produtos",
+                                    item['produtos'].toString()+ " Produtos",
                                     style: TextStyle(
                                         fontSize: 18.0,
                                         fontWeight: FontWeight.bold,
@@ -169,24 +151,14 @@ class _CardPageCategoriasState extends State<CardPageCategorias> {
                             ],
                           ),
                           ),
-
-
                       ],
                     ),
-
-
                   );
-
                 }
-
             ),
-
-
-
           )
         ],
       ),
     );
   }
-
 }

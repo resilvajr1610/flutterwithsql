@@ -24,9 +24,6 @@ class _categoriasPageState extends State<categoriasPage> {
           SizedBox(height: 10.0,),
         ],
       ),
-
     );
   }
-
-
 }

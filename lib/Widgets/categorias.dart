@@ -3,8 +3,6 @@ import 'package:http/http.dart' as http;
 
 class AreaCategoria extends StatefulWidget {
 
-
-
   @override
   _AreaCategoriaState createState() => _AreaCategoriaState();
 }
@@ -15,29 +13,25 @@ class _AreaCategoriaState extends State<AreaCategoria> {
   var dados;
 
   listarDados() async{
-    var url = Uri.parse("http://192.168.2.109/flutter/produtos/listar-categorias.php");
+    final url = Uri.parse("http://${IP().value()}/flutter/produtos/listar-categorias.php");
     var response = await http.get(url);
     var map = json.decode(response.body);
     var itens = map["result"];
 
-    setState(() {
+    setState((){
       carregando = true;
       this.dados = itens;
-
     });
   }
 
   @override
   void initState() {
-    // TODO: implement initState
     super.initState();
-    this.listarDados();
-    print('teste');
+    listarDados();
   }
 
   @override
   Widget build(BuildContext context){
-
 
     return Container(
 

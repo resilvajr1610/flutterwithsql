@@ -62,17 +62,17 @@ class _LoginPageState extends State<LoginPage> {
         content: new Text(
             "Usuário ou Senha incorretos"),
       );
-      //showDialog(context: context, child: alert);
+      showDialog(context: context, builder: (context)=>alert);
     }
 
     //FUNCAO DO LOGIN
-    Future Login(String usuario, String senha) async {
+    Future Login(String email, String senha) async {
       var response = await http.get(
           Uri.parse(
-              "http://192.168.15.6/flutter/usuarios/login.php?usuario=${usuario}&senha=${senha}"),
+              "http://${IP().value()}/flutter/usuarios/login.php?email=${email}&senha=${senha}"),
           headers: {"Accept": "application/json"});
 
-      //print(response.body);
+      print(response.body);
 
       var obj = json.decode(response.body);
       var msg = obj["message"];
@@ -81,113 +81,108 @@ class _LoginPageState extends State<LoginPage> {
       }else{
         dados = obj['result'];
       }
-
     }
 
-
     //VERIFICAR DADOS
-    VerificarDados(String usuario, String senha) {
-      if (dados[0]['usuario'] == usuario && dados[0]['senha'] == senha) {
+    VerificarDados(String email, String senha) {
+      if (dados[0][0]['email'] == email && dados[0][0]['senha'] == senha) {
 
           var route = new MaterialPageRoute(
             builder: (BuildContext context) =>
-            new Tabs(dados[0]['cpf'], dados[0]['nome'], dados[0]['id']),
+            new Tabs(dados[0][0]['cpf'], dados[0][0]['nome'], dados[0][0]['id']),
           );
           Navigator.of(context).push(route);
         } else {
           MensagemDadosIncorretos();
         }
-
     }
-
     return Scaffold(
-      body: Padding(
-        padding: EdgeInsets.symmetric(horizontal: 10.0),
-        child: Column(
-          mainAxisAlignment: MainAxisAlignment.center,
-          children: <Widget>[
-            Image(
-              image:AssetImage("assets/imagens/login.gif"),
-              height:140.0,
-              width:140.0,
-            ),
-
-
-
-            Card(
-              elevation: 5.0,
-              child: Padding(
-                padding: EdgeInsets.all(20.0),
-                child: Column(
-                  children: <Widget>[
-                    _emailtxt(),
-                    SizedBox(
-                      height: 7.0,
-                    ),
-                    _senhatxt(),
-                  ],
-                ),
-              ),
-            ),
-            SizedBox(
-              height: 10.0,
-            ),
-            GestureDetector(
-              onTap: () {
-                Login(emailtxt.text, senhatxt.text);
-                VerificarDados(emailtxt.text, senhatxt.text);
-
-              },
-              child: Button(
-                btnText: "Logar",
-              ),
-            ),
-            Divider(
-              height: 35.0,
-            ),
-            Row(
+      body: Center(
+        child: SingleChildScrollView(
+          child: Padding(
+            padding: EdgeInsets.symmetric(horizontal: 10.0),
+            child: Column(
               mainAxisAlignment: MainAxisAlignment.center,
               children: <Widget>[
-                Text(
-                  "Não possui Cadastro?",
-                  style: TextStyle(
-                      color: Color(0xFFBDC2CB),
-                      fontWeight: FontWeight.bold,
-                      fontSize: 16.0),
+                Image(
+                  image:AssetImage("assets/imagens/login.gif"),
+                  height:140.0,
+                  width:140.0,
                 ),
-                SizedBox(width: 10.0),
+                Card(
+                  elevation: 5.0,
+                  child: Padding(
+                    padding: EdgeInsets.all(20.0),
+                    child: Column(
+                      children: <Widget>[
+                        _emailtxt(),
+                        SizedBox(
+                          height: 7.0,
+                        ),
+                        _senhatxt(),
+                      ],
+                    ),
+                  ),
+                ),
+                SizedBox(
+                  height: 10.0,
+                ),
                 GestureDetector(
                   onTap: () {
-                  Navigator.of(context).push(MaterialPageRoute(builder: (BuildContext context) => cadastroPage("")
-                     ));
+                    Login(emailtxt.text, senhatxt.text).then((_) => VerificarDados(emailtxt.text, senhatxt.text));
                   },
-                  child: Text(
-                    "Cadastre-se",
-                    style: TextStyle(
-                        color: Colors.blueAccent,
-                        fontWeight: FontWeight.bold,
-                        fontSize: 16.0),
+                  child: Button(
+                    btnText: "Logar",
                   ),
+                ),
+                Divider(
+                  height: 35.0,
+                ),
+                Row(
+                  mainAxisAlignment: MainAxisAlignment.center,
+                  children: <Widget>[
+                    Text(
+                      "Não possui Cadastro?",
+                      style: TextStyle(
+                          color: Color(0xFFBDC2CB),
+                          fontWeight: FontWeight.bold,
+                          fontSize: 16.0),
+                    ),
+                    SizedBox(width: 10.0),
+                    GestureDetector(
+                      onTap: () {
+                      Navigator.of(context).push(MaterialPageRoute(builder: (BuildContext context) => cadastroPage("")
+                         ));
+                      },
+                      child: Text(
+                        "Cadastre-se",
+                        style: TextStyle(
+                            color: Colors.blueAccent,
+                            fontWeight: FontWeight.bold,
+                            fontSize: 16.0),
+                      ),
+                    ),
+                  ],
+                ),
+                SizedBox(
+                  height: 10.0,
+                ),
+                Row(
+                  mainAxisAlignment: MainAxisAlignment.center,
+                  children: <Widget>[
+                    Text(
+                      "Recuperar Senha?",
+                      style: TextStyle(
+                        fontSize: 15.0,
+                        color: Colors.red,
+                        fontWeight: FontWeight.w400,
+                      ),
+                    ),
+                  ],
                 ),
               ],
             ),
-            SizedBox(
-              height: 10.0,
-            ),
-            Row(
-              mainAxisAlignment: MainAxisAlignment.center,
-              children: <Widget>[
-                Text(
-                  "Recuperar Senha?",
-                  style: TextStyle(
-                    fontSize: 15.0,
-                    color: Colors.red,
-                    fontWeight: FontWeight.w400,
-                  ),
-                ),
-              ],
-            ),
-          ],
+          ),
         ),
       ),
     );

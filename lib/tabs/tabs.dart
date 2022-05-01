@@ -15,7 +15,7 @@ class Tabs extends StatefulWidget{
 
 class _TabsState extends State<Tabs>{
 
-   var cpfuser, nomeuser, iduser;
+  var cpfuser, nomeuser, iduser;
 
   int abaAtual = 0;
   TelaInicial? telaInicial;
@@ -25,7 +25,6 @@ class _TabsState extends State<Tabs>{
 
   List<Widget>? pages;
   Widget? pagAtual;
-
 
   @override
   void initState(){
@@ -38,7 +37,6 @@ class _TabsState extends State<Tabs>{
     pagAtual = telaInicial;
     super.initState();
   }
-
 
   @override
   Widget build(BuildContext context){
@@ -87,10 +85,7 @@ class _TabsState extends State<Tabs>{
                 onPressed: () {},
               )
             ],
-
           ),
-
-
           //COLOCAR DRAWER
           drawer: Drawer(
             child: Column(

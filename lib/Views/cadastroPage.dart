@@ -21,7 +21,7 @@ class _cadastroPageState extends State<cadastroPage> {
   String? _cpf;
   String? _telefone;
 
-  var nome, cpf, telefone, usuario, senha;
+  var nome, cpf, telefone, email, senha;
   var nometxt, emailtxt, senhatxt, cpftxt, telefonetxt;
   var dados;
   var caminhoImg = "assets/imagens/cadastro.png";
@@ -83,7 +83,6 @@ class _cadastroPageState extends State<cadastroPage> {
     );
   }
 
-
   Widget _cpftxt() {
     return TextFormField(
       controller: cpftxt,
@@ -109,7 +108,6 @@ class _cadastroPageState extends State<cadastroPage> {
       },
     );
   }
-
 
   Widget _telefonetxt() {
     return TextFormField(
@@ -172,7 +170,6 @@ class _cadastroPageState extends State<cadastroPage> {
     );
   }
 
-
   mensagem(res){
     var alert = new AlertDialog(
       title: new Text('Inserir Dados'),
@@ -192,7 +189,7 @@ class _cadastroPageState extends State<cadastroPage> {
         ),
       ],
     );
-    //showDialog(context: context, child: alert);
+    showDialog(context: context, builder: (context)=>alert);
 
     if(res == 'Inserido com Sucesso'){
       nometxt.text = "";
@@ -201,20 +198,16 @@ class _cadastroPageState extends State<cadastroPage> {
       senhatxt.text = "";
       cpftxt.text = "";
     }
-
   }
 
-
-  //VERIFICAR SE O USUÁRIO ESTÁ LOGADO, SE TIVER RECUPERAR SEUS DADOS PARA EDITAR
   @override
   void initState() {
-    // TODO: implement initState
     super.initState();
     if(widget._id != ""){
       caminhoImg = "assets/imagens/excluir.png";
       nomebtn = "Editar";
       recuperarDados();
-      }
+    }
     nometxt = new TextEditingController();
     emailtxt = new TextEditingController();
     senhatxt = new TextEditingController();
@@ -225,10 +218,10 @@ class _cadastroPageState extends State<cadastroPage> {
   //método para recuperar os dados do usuário logado
   recuperarDados() async{
 
-    var response = await http.get(
-        Uri.parse(
-            "http://192.168.15.6/flutter/usuarios/recuperarDados.php?id=${widget._id}"),
+    var url= Uri.encodeFull("http://${IP().value()}/flutter/usuarios/recuperarDados.php?id=${widget._id}");
+    var response = await http.get(Uri.parse(url),
         headers: {"Accept": "application/json"});
+
     final map = json.decode(response.body);
     final itens = map["result"];
 
@@ -239,33 +232,33 @@ class _cadastroPageState extends State<cadastroPage> {
         nome = dados[0]["nome"];
         cpf = dados[0]["cpf"];
         telefone = dados[0]["telefone"];
-        usuario = dados[0]["usuario"];
+        email = dados[0]["email"];
         senha = dados[0]["senha"];
 
-
         nometxt = new TextEditingController(text: nome);
-        emailtxt = new TextEditingController(text: usuario);
+        emailtxt = new TextEditingController(text: email);
         senhatxt = new TextEditingController(text: senha);
         cpftxt = new TextEditingController(text: cpf);
         telefonetxt = new TextEditingController(text: telefone);
       });
-
-
-
   }
 
   //método para inserir na api
   void _inserir() async{
-    var url = Uri.parse("http://192.168.15.6/flutter/usuarios/inserir.php");
-    var response = await http.post(url, body:{
-      "nome" : nometxt.text,
-      "email" : emailtxt.text,
-      "cpf" : cpftxt.text,
-      "telefone" : telefonetxt.text,
-      "senha" : senhatxt.text,
-      "id" : widget._id,
-
+    var url = Uri.parse("http://${IP().value()}/flutter/usuarios/inserir.php");
+    var response = await http.post(url,
+      body:{
+      "nome": nometxt.text,
+      "email": emailtxt.text,
+      "cpf": cpftxt.text,
+      "telefone": telefonetxt.text,
+      "senha": senhatxt.text,
+      "id" : widget._id.toString(),
     });
+
+    if (response.statusCode == 200) {
+      print(response.body.toString());
+    }
 
     final map = json.decode(response.body);
     final res = map["message"];
@@ -304,7 +297,7 @@ class _cadastroPageState extends State<cadastroPage> {
   excluirUsuario(id){
     http.get(
         Uri.parse(
-            "http://192.168.15.6/flutter/usuarios/excluir.php?id=${id}"),
+            "http://192.168.2.112/flutter/usuarios/excluir.php?id=${id}"),
         headers: {"Accept": "application/json"});
     Navigator.of(context).push(MaterialPageRoute(builder: (BuildContext context) => Tabs("", "", "")
     ));
@@ -316,11 +309,11 @@ class _cadastroPageState extends State<cadastroPage> {
       child: Scaffold(
         resizeToAvoidBottomInset: false,
         backgroundColor: Colors.grey.shade100,
-        body: SingleChildScrollView(
-          child: Padding(
-            padding: EdgeInsets.symmetric(horizontal: 10.0),
-            child: Form(
-              key: _formKey,
+        body: Padding(
+          padding: EdgeInsets.symmetric(horizontal: 10.0),
+          child: Form(
+            key: _formKey,
+            child: SingleChildScrollView(
               child: Column(
                 mainAxisAlignment: MainAxisAlignment.center,
                 children: <Widget>[
@@ -344,70 +337,72 @@ class _cadastroPageState extends State<cadastroPage> {
                       padding: EdgeInsets.all(20.0),
                       child: Column(
                         children: <Widget>[
-                          _nometxt(),
-                          SizedBox(
-                            height: 12.0,
+                          Padding(
+                            padding: const EdgeInsets.all(4),
+                            child: _nometxt(),
                           ),
-                          _cpftxt(),
-                          SizedBox(
-                            height: 12.0,
+                          Padding(
+                            padding: const EdgeInsets.all(4),
+                            child: _cpftxt(),
                           ),
-                          _telefonetxt(),
-                          SizedBox(
-                            height: 12.0,
+                          Padding(
+                            padding: const EdgeInsets.all(4),
+                            child: _telefonetxt(),
                           ),
-                          _emailtxt(),
-                          SizedBox(
-                            height: 12.0,
+                          Padding(
+                            padding: const EdgeInsets.all(4),
+                            child: _emailtxt(),
                           ),
-                          _senhatxt(),
+                          Padding(
+                            padding: const EdgeInsets.all(4),
+                            child: _senhatxt(),
+                          ),
                         ],
                       ),
                     ),
                   ),
                   SizedBox(
-                    height: 20.0,
+                    height: 10.0,
                   ),
-
-
-              GestureDetector(
-              onTap: () {
-              _inserir();
-
-               },
-                child: Button(
-                 btnText: nomebtn,
-                 ),
-              ),
-
+                  GestureDetector(
+                    onTap: () {
+                    _inserir();
+                     },
+                    child: Button(
+                     btnText: nomebtn,
+                     ),
+                  ),
                   Divider(
                     height: 20.0,
                   ),
-                  Row(
-                    mainAxisAlignment: MainAxisAlignment.center,
-                    children: <Widget>[
-                      Text(
-                        "Já possui Cadastro?",
-                        style: TextStyle(
-                            color: Color(0xFFBDC2CB),
-                            fontWeight: FontWeight.bold,
-                            fontSize: 16.0),
-                      ),
-                      SizedBox(width: 10.0),
-                      GestureDetector(
-                        onTap: () {
-                          Navigator.of(context).pushReplacement(MaterialPageRoute(
-                              builder: (BuildContext context) => LoginPage()));
-                        },
-                        child: Text(
-                          "Logar",
+                  Padding(
+                    padding: const EdgeInsets.all(8.0),
+                    child: Row(
+                      mainAxisAlignment: MainAxisAlignment.center,
+                      children: <Widget>[
+                        Text(
+                          "Já possui Cadastro?",
                           style: TextStyle(
-                              color: Colors.blueAccent,
+                              color: Color(0xFFBDC2CB),
                               fontWeight: FontWeight.bold,
                               fontSize: 16.0),
                         ),
-                      ),
-                    ],
+                        SizedBox(width: 10.0),
+                        GestureDetector(
+                          onTap: () {
+                            Navigator.of(context).pushReplacement(MaterialPageRoute(
+                                builder: (BuildContext context) => LoginPage()));
+                          },
+                          child: Text(
+                            "Logar",
+                            style: TextStyle(
+                                color: Colors.blueAccent,
+                                fontWeight: FontWeight.bold,
+                                fontSize: 16.0),
+                          ),
+                        ),
+                      ],
+                    ),
                   ),
                 ],
               ),

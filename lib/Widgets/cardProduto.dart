@@ -12,7 +12,6 @@ class CardProduto extends StatefulWidget {
   }
 @override
   _CardProdutoState createState() => _CardProdutoState();
-
 }
 
 class _CardProdutoState extends State<CardProduto> {
@@ -24,15 +23,14 @@ class _CardProdutoState extends State<CardProduto> {
 
   @override
   void initState() {
-    // TODO: implement initState
     super.initState();
     _listarDados();
   }
 
   _listarDados() async{
     buscar = widget._nomebusca;
-    var url= Uri.parse("http://192.168.2.109/flutter/produtos/listar.php");
-    var response = await http.get(url,
+    var url= Uri.encodeFull("http://${IP().value()}/flutter/produtos/listar.php?nome=${buscar}");
+    var response = await http.get(Uri.parse(url),
         headers: {"Accept": "application/json"});
     final map = json.decode(response.body);
     final itens = map["result"];

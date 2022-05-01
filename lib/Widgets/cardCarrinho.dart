@@ -1,6 +1,5 @@
 import '../Controllers/export.dart';
 
-
   class CardCarrinho extends StatefulWidget{
     _CardCarrinhoState createState() =>  _CardCarrinhoState();
   }
@@ -12,7 +11,7 @@ import '../Controllers/export.dart';
 
       return Card(
           child: Padding(
-          padding: EdgeInsets.symmetric(horizontal: 15.0, vertical: 10.0),
+          padding: EdgeInsets.symmetric(horizontal: 5.0, vertical: 10.0),
               child: Row(
                   mainAxisSize: MainAxisSize.max,
                   crossAxisAlignment: CrossAxisAlignment.start,

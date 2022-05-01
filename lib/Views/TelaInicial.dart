@@ -56,7 +56,4 @@ class _TelaInicialState extends State<TelaInicial> {
       ),
     );
   }
-
-
-
 }
