@@ -1,18 +1,15 @@
 import '../Controllers/export.dart';
 import 'package:http/http.dart' as http;
 
-
 class CardPageCategorias extends StatefulWidget {
   var _altura, _largura;
 
   CardPageCategorias(altura, largura) {
     this._altura = altura;
     this._largura = largura;
-
   }
   @override
   _CardPageCategoriasState createState() => _CardPageCategoriasState();
-
 }
 
 class _CardPageCategoriasState extends State<CardPageCategorias> {
@@ -23,14 +20,13 @@ class _CardPageCategoriasState extends State<CardPageCategorias> {
   var buscar;
   @override
   void initState() {
-    // TODO: implement initState
     super.initState();
     _listarDados();
   }
 
   _listarDados() async{
 
-    final url = Uri.parse("http://${IP().value()}/flutter/produtos/listar-categorias.php");
+    final url = Uri.parse("http://${IP().value()}/flutter/produtos/categorias.php");
     final response = await http.get(url);
     final map = json.decode(response.body);
     final itens = map["result"];
@@ -87,71 +83,63 @@ class _CardPageCategoriasState extends State<CardPageCategorias> {
                 itemBuilder: (context, i){
                   final item = this.dados[i];
 
-                  return new Container(
-                    margin: EdgeInsets.only(bottom: 7.0),
-                    child:Stack(
-                      children: <Widget>[
-                        Container(
-                          child:Image.asset("assets/imagens/"+item['imagem'])),
-                        Positioned(
-                          left: 0.0,
-                          bottom: 0.0,
-                          width: 340.0,
-                          height: 60.0,
-                          child: Container(
-                            decoration: BoxDecoration(
-                                gradient: LinearGradient(
-                                    begin: Alignment.bottomCenter,
-                                    end: Alignment.topCenter,
-                                    colors: [Colors.black, Colors.black12])),
+                  return GestureDetector(
+                    onTap: ()=>Navigator.of(context).push(MaterialPageRoute(builder: (BuildContext context) => produtosPage("", item['id']))),
+                    child: new Container(
+                      margin: EdgeInsets.only(bottom: 7.0),
+                      child:Stack(
+                        children: <Widget>[
+                          Container(
+                            child:Image.asset("assets/imagens/"+item['imagem'])),
+                          Positioned(
+                            left: 0.0,
+                            bottom: 0.0,
+                            width: 340.0,
+                            height: 60.0,
+                            child: Container(
+                              decoration: BoxDecoration(
+                                  gradient: LinearGradient(
+                                      begin: Alignment.bottomCenter,
+                                      end: Alignment.topCenter,
+                                      colors: [Colors.black, Colors.black12])),
+                            ),
                           ),
-                        ),
-                        Positioned(
-                          left: 10.0,
-                          bottom: 10.0,
-                          right: 10.0,
-                            child: Row(
-                            mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                            children: <Widget>[
-                              Column(
-                                crossAxisAlignment: CrossAxisAlignment.start,
-                                children: <Widget>[
-                                  GestureDetector(
-                                    onTap:(){
-                                      print(item['nome']);
-                                    },
-                                    child:Text(
+                          Positioned(
+                            left: 10.0,
+                            bottom: 10.0,
+                            right: 10.0,
+                              child: Row(
+                              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                              children: <Widget>[
+                                Column(
+                                  crossAxisAlignment: CrossAxisAlignment.start,
+                                  children: <Widget>[
+                                    Text(
                                     item['nome'],
                                     style: TextStyle(
                                         fontSize: 18.0,
                                         fontWeight: FontWeight.bold,
                                         color: Colors.white),
-                                  ),
-                                  )
-                                ],
-                              ),
-                              Column(
-                                crossAxisAlignment: CrossAxisAlignment.end,
-                                children: <Widget>[
-                                  GestureDetector(
-                                    onTap:(){
-                                      Navigator.of(context).push(MaterialPageRoute(builder: (BuildContext context) => produtosPage("", item['id'])
-                                      ));
-                                    },
-                                    child:Text(
+                                    )
+                                  ],
+                                ),
+                                Column(
+                                  crossAxisAlignment: CrossAxisAlignment.end,
+                                  children: <Widget>[
+                                    Text(
                                     item['produtos'].toString()+ " Produtos",
                                     style: TextStyle(
                                         fontSize: 18.0,
                                         fontWeight: FontWeight.bold,
                                         color: Colors.orangeAccent),
-                                  ),
-                                  )
-                                ],
-                              ),
-                            ],
-                          ),
-                          ),
-                      ],
+                                    )
+                                  ],
+                                ),
+                              ],
+                            ),
+                            ),
+                        ],
+                      ),
                     ),
                   );
                 }

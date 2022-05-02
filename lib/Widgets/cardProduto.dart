@@ -29,7 +29,7 @@ class _CardProdutoState extends State<CardProduto> {
 
   _listarDados() async{
     buscar = widget._nomebusca;
-    var url= Uri.encodeFull("http://${IP().value()}/flutter/produtos/listar.php?nome=${buscar}");
+    var url= Uri.encodeFull("http://${IP().value()}/flutter/produtos/listar.php?nome=${buscar}&idcat=${widget._idcat}");
     var response = await http.get(Uri.parse(url),
         headers: {"Accept": "application/json"});
     final map = json.decode(response.body);
